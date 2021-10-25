@@ -32,8 +32,19 @@ public class Utils {
 
         //System.out.println(digest.getProvider());
 
-        byte[] result = digest.digest(
-                concat(blockInfo.getPrevHash(),info.getBytes("UTF-8")));
+        byte[] result = digest.digest(concat(blockInfo.getPrevHash(),info.getBytes("UTF-8")));
+        return result;
+    }
+
+    public static byte[] getHash(dz2.BlockInfo blockInfo) throws NoSuchAlgorithmException, UnsupportedEncodingException, NoSuchProviderException {
+
+        String info = blockInfo.getData();
+
+        MessageDigest digest = MessageDigest.getInstance(DIGEST_ALGORITHM,"BC");
+
+        //System.out.println(digest.getProvider());
+
+        byte[] result = digest.digest(concat(blockInfo.getPrevHash(),info.getBytes("UTF-8")));
         return result;
     }
 

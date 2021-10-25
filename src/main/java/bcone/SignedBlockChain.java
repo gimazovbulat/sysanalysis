@@ -40,7 +40,7 @@ public class SignedBlockChain {
                 });
                 System.out.println("verification result: " + verification());
 
-                damage();
+//                damage();
 
 
                 List<BlockInfo> blockInfos = readAll(con, blockInfoMapper);
