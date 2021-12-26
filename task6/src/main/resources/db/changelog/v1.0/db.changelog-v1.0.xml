@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="1" author="bulat.gimazov">
+        <createSequence sequenceName="conclusion_seq"/>
+        <createTable tableName="conclusion" remarks="Заключение">
+            <column name="id" type="bigint" defaultValueComputed="nextval('conclusion_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar" remarks="Описание">
+                <constraints nullable="false"/>
+            </column>
+            <column name="question" type="varchar" remarks="Вопрос">
+                <constraints nullable="true"/>
+            </column>
+            <column name="treatment" type="bigint" remarks="Идентификатор лечения">
+                <constraints nullable="true"/>
+            </column>
+            <column name="negative" type="bigint" remarks="Идентификатор негативного заключения">
+                <constraints nullable="true"/>
+            </column>
+            <column name="positive" type="bigint" remarks="Идентификатор позитивного заключения">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <loadData tableName="conclusion"
+                  file="db/changelog/v1.0/data/csv/conclusion.csv"
+                  separator=";"
+                  relativeToChangelogFile="false"/>
+    </changeSet>
+
+    <changeSet id="2" author="bulat.gimazov">
+        <createSequence sequenceName="treatment_seq"/>
+        <createTable tableName="treatment" remarks="Лечение">
+            <column name="id" type="bigint" defaultValueComputed="nextval('treatment_seq')">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar" remarks="Описание">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <loadData tableName="treatment"
+                  file="db/changelog/v1.0/data/csv/treatment.csv"
+                  separator=";"
+                  relativeToChangelogFile="false"/>
+    </changeSet>
+</databaseChangeLog>
