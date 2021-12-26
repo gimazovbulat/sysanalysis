@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,12 +22,12 @@ public class SecondTask extends AbstractTask {
         dayOfMonthAndAmountOfApplications
                 .forEach((key, value) -> log.info("День месяца = {}; Кол-во заявок = {}\n", key, value));
 
-        getDispersion(getAverage(dayOfMonthAndAmountOfApplications), dayOfMonthAndAmountOfApplications);
+        getDispersion(getAverage(dayOfMonthAndAmountOfApplications.values()), dayOfMonthAndAmountOfApplications.values());
     }
 
     @Override
-    protected void getDispersion(double avg, Map<?, Long> applicationAmountInDays) {
-        var sum = applicationAmountInDays.values().stream().map(
+    protected void getDispersion(double avg, Collection<Long> applicationAmountInDays) {
+        var sum = applicationAmountInDays.stream().map(
                         l -> Math.pow((l - avg), 2)
                 )
                 .reduce(0.0, Double::sum);
@@ -36,8 +37,8 @@ public class SecondTask extends AbstractTask {
     }
 
     @Override
-    protected double getAverage(Map<?, Long> applicationAmountInWhatever) {
-        var avg = (double) applicationAmountInWhatever.values().stream()
+    protected double getAverage(Collection<Long> applicationAmountInWhatever) {
+        var avg = (double) applicationAmountInWhatever.stream()
                 .reduce(0L, Long::sum) / applicationAmountInWhatever.size();
         log.info("Среднее значение = {} (кол. заявок/час)\n", avg / 24);
         return avg;

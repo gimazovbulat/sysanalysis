@@ -46,14 +46,14 @@ public class ThirdTask extends AbstractTask {
                         i++;
                     }
 
-                    getDispersion(getAverage(applications), applications);
+                    getDispersion(getAverage(applications.values()), applications.values());
                 }
         );
     }
 
     @Override
-    protected void getDispersion(double avg, Map<?, Long> applicationAmountInDay) {
-        var sum = applicationAmountInDay.values().stream().map(
+    protected void getDispersion(double avg, Collection<Long> applicationAmountInDay) {
+        var sum = applicationAmountInDay.stream().map(
                         l -> Math.pow((l - avg), 2)
                 )
                 .reduce(0.0, Double::sum);
@@ -63,8 +63,8 @@ public class ThirdTask extends AbstractTask {
     }
 
     @Override
-    protected double getAverage(Map<?, Long> applicationAmountInDay) {
-        var avg = (double) applicationAmountInDay.values().stream()
+    protected double getAverage(Collection<Long> applicationAmountInDay) {
+        var avg = (double) applicationAmountInDay.stream()
                 .reduce(0L, Long::sum) / applicationAmountInDay.size();
         log.info("Среднее значение = {} (кол. заявок/час)\n", avg / 24);
         return avg;

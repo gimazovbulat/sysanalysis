@@ -6,10 +6,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import java.sql.Timestamp;
 import java.time.Month;
 import java.time.format.TextStyle;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -40,14 +37,14 @@ public class FifthTask extends AbstractTask {
                 value
         ));
 
-        getDispersion(getAverage(monthAndApplicationAmount), monthAndApplicationAmount);
+        getDispersion(getAverage(monthAndApplicationAmount.values()), monthAndApplicationAmount.values());
     }
 
     @Override
     protected void getDispersion(double avg,
-                                 Map<?, Long> applicationAmountInMonth
+                                 Collection<Long> applicationAmountInMonth
     ) {
-        var sum = applicationAmountInMonth.values().stream().map(
+        var sum = applicationAmountInMonth.stream().map(
                         l -> Math.pow((l - avg), 2)
                 )
                 .reduce(0.0, Double::sum);
@@ -57,8 +54,8 @@ public class FifthTask extends AbstractTask {
     }
 
     @Override
-    protected double getAverage(Map<?, Long> applicationAmountInMonth) {
-        var avg = (double) applicationAmountInMonth.values().stream()
+    protected double getAverage(Collection<Long> applicationAmountInMonth) {
+        var avg = (double) applicationAmountInMonth.stream()
                 .reduce(0L, Long::sum) / applicationAmountInMonth.size();
         log.info("Среднее значение = {} (кол. заявок/час)\n", avg / 7 / 24);
         return avg;

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.TextStyle;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,12 +25,12 @@ public class SixthTask extends AbstractTask {
                         TextStyle.FULL, Locale.ENGLISH), value)
                 );
 
-        getDispersion(getAverage(applications), applications);
+        getDispersion(getAverage(applications.values()), applications.values());
     }
 
     @Override
-    protected void getDispersion(double avg, Map<?, Long> applicationAmountInWhatever) {
-        var sum = applicationAmountInWhatever.values().stream().map(
+    protected void getDispersion(double avg, Collection<Long> applicationAmountInWhatever) {
+        var sum = applicationAmountInWhatever.stream().map(
                         l -> Math.pow((l - avg), 2)
                 )
                 .reduce(0.0, Double::sum);
@@ -40,8 +41,8 @@ public class SixthTask extends AbstractTask {
     }
 
     @Override
-    protected double getAverage(Map<?, Long> applicationAmountInWhatever) {
-        var avg = (double) applicationAmountInWhatever.values().stream()
+    protected double getAverage(Collection<Long> applicationAmountInWhatever) {
+        var avg = (double) applicationAmountInWhatever.stream()
                 .reduce(0L, Long::sum) / applicationAmountInWhatever.size();
         log.info("Среднее значение = {} (кол. заявок/час)\n", avg /30.5 / 24);
         return avg;
